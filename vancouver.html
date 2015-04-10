@@ -14,20 +14,43 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script>
 
-var myLatLng = new google.maps.LatLng(49.2827,-123.1207);
-var theirLatLng = new google.maps.LatLng(-25.363882,131.044922);
-// var myMarker;
-// var theirMarker;
-// var map;
+var myMarker;
+var map;
 
 function initialize() {
   
+  var myLatLng = new google.maps.LatLng(49.26977,-123.13887);
+  var keg = new google.maps.LatLng(49.27150,-123.13563);
+
   var mapOptions = {
-    zoom: 4,
-    center: myLatLng
+    zoom: 14,
+    center: keg
   };
 
   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">The Keg</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>The Keg</b> is a really great steak house. So tasty.</p>'+
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+      content: contentString
+  });
+
+  google.maps.event.addListener(theKeg, 'click', function() {
+    infowindow.open(map,theKeg);
+  });
+
+  var theKeg = new google.maps.Marker({
+      map: map,
+      position: keg,
+      title: 'The Keg'
+  });
 
   var myMarker = new google.maps.Marker({
       map: map,
@@ -37,14 +60,6 @@ function initialize() {
       title: 'I live here.'
   });
 
-  var theirMarker = new google.maps.Marker({
-      position: theirLatLng,
-      map: map,
-      title: 'Hello World!',
-      draggable: true,
-      animation: google.maps.Animation.DROP
-  });
-      google.maps.event.addListener(theirMarker, 'click', toggleBounce);
       google.maps.event.addListener(myMarker, 'click', toggleBounce);
 }
 
